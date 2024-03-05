@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import CartContext from "./cart-context";
-
+ 
 const defaultCartState = {
   items: [],
   totalAmount: 0,
@@ -71,6 +71,10 @@ const cartReducer = (state, action) => {
     }
 
   }
+  
+  if(action.type==='CLEAR'){
+    return defaultCartState;
+  }
 
 //this is the fallack is case we dont have any action
   return defaultCartState;
@@ -89,6 +93,10 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: "Remove", id: id });
   };
 
+  const clearCartHandler=()=>{
+    dispatchCartAction({type:'CLEAR'})
+  }
+
   //cartContext is doing all thing updating the items and total Amount and it is a super component that keeps updated value and
   // accesible to cross component
   //some components write to the context and some read from the context
@@ -101,6 +109,7 @@ const CartProvider = (props) => {
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    clearCart:clearCartHandler
   };
 
   return (
